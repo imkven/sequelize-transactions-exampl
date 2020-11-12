@@ -1,0 +1,26 @@
+{
+  "name": "sequelize-transactions-exampl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "config": "^3.3.2",
+    "parallel-promises": "^1.6.2",
+    "pg": "^8.5.0",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imkven/sequelize-transactions-exampl.git"
+  },
+  "author": "Kven Ho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imkven/sequelize-transactions-exampl/issues"
+  },
+  "homepage": "https://github.com/imkven/sequelize-transactions-exampl#readme"
+}
