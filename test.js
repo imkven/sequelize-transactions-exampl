@@ -24,6 +24,7 @@ async function init() {
     }]);
 }
 
+// Make sure parallel works
 async function testA() {
     // Executing (8547d84c-560f-4cd0-a729-a307ecdacc00): START TRANSACTION;
     // Executing (8547d84c-560f-4cd0-a729-a307ecdacc00): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
@@ -402,6 +403,62 @@ async function testB() {
 async function testC() {
     await init();
 
+    // Executing (f327a42d-8c46-4d85-8b4b-7bdb513e26d1): START TRANSACTION;
+    // Executing (f327a42d-8c46-4d85-8b4b-7bdb513e26d1): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): START TRANSACTION;
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (f327a42d-8c46-4d85-8b4b-7bdb513e26d1): COMMIT;
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // (node:1330) UnhandledPromiseRejectionWarning: Error: commit has been called on this transaction(f327a42d-8c46-4d85-8b4b-7bdb513e26d1), you can no longer use it. (The rejected query is attached as the 'sql' property of this error)
+    //     at checkTransaction (/Users/kvenho/AlleyWise/sequelize-transactions-exampl/node_modules/sequelize/lib/sequelize.js:598:23)
+    //     at retry (/Users/kvenho/AlleyWise/sequelize-transactions-exampl/node_modules/sequelize/lib/sequelize.js:618:9)
+    //     at process._tickCallback (internal/process/next_tick.js:68:7)
+    // (node:1330) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 2)
+    // (node:1330) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+
+    const _self = this;
+
+    async function addRowWithLog(dbTx) {
+        console.log('Add row start');
+        const newRow = await TestTable.create({
+            class: '2',
+            amount: 30,
+        }, {
+            transaction: dbTx,
+        });
+        console.log('Add row end');
+        return newRow;
+    }
+
+    async function sumWithLog(dbTx) {
+        console.log('Sum start');
+        const newRow = await TestTable.sum('amount', {
+            where: {
+                class: '1',
+            },
+            transaction: t1tx,
+        });
+        console.log('Sum end');
+        return newRow;
+    }
+
     const t1tx = await sequelize.transaction({
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
     });
@@ -412,25 +469,15 @@ async function testC() {
     const listOfPromises = [
         {
             name: 't1Sum',
-            function: TestTable.sum,
-            thisArg: TestTable,
-            args: ['amount', {
-                where: {
-                    class: '1',
-                },
-                transaction: t1tx,
-            }],
+            function: sumWithLog,
+            thisArg: _self,
+            args: [],
         },
         {
             name: 't1Add',
-            function: TestTable.create,
-            thisArg: TestTable,
-            args: [{
-                class: '2',
-                amount: 30,
-            }, {
-                transaction: t1tx,
-            }],
+            function: addRowWithLog,
+            thisArg: _self,
+            args: [t1tx],
         },
         {
             name: 't2Sum',
