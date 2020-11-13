@@ -2,6 +2,7 @@ const config = require('config');
 const path = require('path');
 const fs = require('fs');
 const Sequelize = require('sequelize');
+const { logger } = require('sequelize/lib/utils/logger');
 
 const basename = path.basename(__filename);
 const db = {};
@@ -13,8 +14,13 @@ delete dbConfigs.database;
 delete dbConfigs.username;
 delete dbConfigs.password;
 
+const logger2 = (msg) =>  {
+  console.log(`${Date.now()}: ${msg}`);
+};
+
 const sequelize = new Sequelize(database, username, password, {
-  ...dbConfigs
+  ...dbConfigs,
+  logging: logger2,
 });
 
 fs
