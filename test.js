@@ -436,10 +436,10 @@ async function testC() {
 
     const _self = this;
 
-    async function addRowWithLog(dbTx) {
+    async function addRowWithLog(dbTx, klass = '2') {
         console.log('Add row start');
         const newRow = await TestTable.create({
-            class: '2',
+            class: klass,
             amount: 30,
         }, {
             transaction: dbTx,
@@ -450,15 +450,19 @@ async function testC() {
         return newRow;
     }
 
-    async function sumWithLog(dbTx) {
+    async function sumWithLog(dbTx, klass = '1', commit = false) {
         console.log('Sum start');
         const newRow = await TestTable.sum('amount', {
             where: {
-                class: '1',
+                class: klass,
             },
             transaction: dbTx,
         });
         console.log('Sum end');
+        if (commit) {
+            console.log('Start commit SUM');
+            await dbTx.commit();
+        }
         return newRow;
     }
 
@@ -466,6 +470,7 @@ async function testC() {
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
         autocommit: false,
     });
+    
     const t2tx = await sequelize.transaction({
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
         autocommit: false,
@@ -483,6 +488,12 @@ async function testC() {
             function: addRowWithLog,
             thisArg: _self,
             args: [t1tx],
+        },
+        {
+            name: 't2Add',
+            function: addRowWithLog,
+            thisArg: _self,
+            args: [t2tx, '2'],
         },
         {
             name: 't2Sum1',
@@ -540,12 +551,6 @@ async function testC() {
             }],
         },
         {
-            name: 'commitDbTx1',
-            function: t1tx.commit,
-            thisArg: t1tx,
-            args: [],
-        },
-        {
             name: 't2Sum6',
             function: TestTable.sum,
             thisArg: TestTable,
@@ -599,6 +604,12 @@ async function testC() {
                 },
                 transaction: t2tx,
             }],
+        },
+        {
+            name: 't2Sum17',
+            function: sumWithLog,
+            thisArg: _self,
+            args: [t2tx, '2', true],
         },
         {
             name: 't2Sum11',
@@ -657,17 +668,6 @@ async function testC() {
         },
         {
             name: 't2Sum16',
-            function: TestTable.sum,
-            thisArg: TestTable,
-            args: ['amount', {
-                where: {
-                    class: '2',
-                },
-                transaction: t2tx,
-            }],
-        },
-        {
-            name: 't2Sum17',
             function: TestTable.sum,
             thisArg: TestTable,
             args: ['amount', {
