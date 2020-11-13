@@ -403,35 +403,37 @@ async function testB() {
 async function testC() {
     await init();
 
-    // Executing (f327a42d-8c46-4d85-8b4b-7bdb513e26d1): START TRANSACTION;
-    // Executing (f327a42d-8c46-4d85-8b4b-7bdb513e26d1): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): START TRANSACTION;
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (f327a42d-8c46-4d85-8b4b-7bdb513e26d1): COMMIT;
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // (node:1330) UnhandledPromiseRejectionWarning: Error: commit has been called on this transaction(f327a42d-8c46-4d85-8b4b-7bdb513e26d1), you can no longer use it. (The rejected query is attached as the 'sql' property of this error)
+    // Executing (173041b0-e71c-421e-ade9-549e12e4126f): START TRANSACTION;
+    // Executing (173041b0-e71c-421e-ade9-549e12e4126f): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): START TRANSACTION;
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    // Sum start
+    // Add row start
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (173041b0-e71c-421e-ade9-549e12e4126f): COMMIT;
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // (node:1660) UnhandledPromiseRejectionWarning: Error: commit has been called on this transaction(173041b0-e71c-421e-ade9-549e12e4126f), you can no longer use it. (The rejected query is attached as the 'sql' property of this error)
     //     at checkTransaction (/Users/kvenho/AlleyWise/sequelize-transactions-exampl/node_modules/sequelize/lib/sequelize.js:598:23)
     //     at retry (/Users/kvenho/AlleyWise/sequelize-transactions-exampl/node_modules/sequelize/lib/sequelize.js:618:9)
     //     at process._tickCallback (internal/process/next_tick.js:68:7)
-    // (node:1330) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 2)
-    // (node:1330) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
-    // Executing (00bdbe8c-fe21-47b1-8c67-b2d15225369c): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // (node:1660) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 2)
+    // (node:1660) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
+    // Executing (5cd4dc46-0d39-465f-9c2d-8499b3f7b960): SELECT sum("amount") AS "sum" FROM "TestTables" AS "TestTable" WHERE "TestTable"."class" = '2';
 
     const _self = this;
 
