@@ -399,7 +399,6 @@ async function testB() {
     console.log('p', p);
 }
 
-// By this test, we can make sure read uncomitted is NOT possible in different dbTx
 async function testC() {
     await init();
 
@@ -445,6 +444,8 @@ async function testC() {
         }, {
             transaction: dbTx,
         });
+        console.log('Starting commit');
+        await dbTx.commit();
         console.log('Add row end');
         return newRow;
     }
@@ -455,7 +456,7 @@ async function testC() {
             where: {
                 class: '1',
             },
-            transaction: t1tx,
+            transaction: dbTx,
         });
         console.log('Sum end');
         return newRow;
@@ -463,9 +464,11 @@ async function testC() {
 
     const t1tx = await sequelize.transaction({
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+        autocommit: false,
     });
     const t2tx = await sequelize.transaction({
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+        autocommit: false,
     });
 
     const listOfPromises = [
@@ -473,7 +476,7 @@ async function testC() {
             name: 't1Sum',
             function: sumWithLog,
             thisArg: _self,
-            args: [],
+            args: [t1tx],
         },
         {
             name: 't1Add',
@@ -482,7 +485,7 @@ async function testC() {
             args: [t1tx],
         },
         {
-            name: 't2Sum',
+            name: 't2Sum1',
             function: TestTable.sum,
             thisArg: TestTable,
             args: ['amount', {
