@@ -468,12 +468,10 @@ async function testC() {
 
     const t1tx = await sequelize.transaction({
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
-        autocommit: false,
     });
     
     const t2tx = await sequelize.transaction({
         isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
-        autocommit: false,
     });
 
     const listOfPromises = [
